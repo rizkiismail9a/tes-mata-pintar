@@ -1,7 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
-  devtools: { enabled: true },
+  // devtools: { enabled: true },
+  devServer: {
+    port: 8080,
+  },
   pages: true,
 
   modules: ["@vite-pwa/nuxt"],
@@ -130,11 +133,13 @@ export default defineNuxtConfig({
     },
     workbox: {
       navigateFallback: "/",
+      importScripts: ["/sw.js"],
+      globPatterns: ["**/*.{js,css,html,png,svg,jpg,woff2}"],
     },
+    strategies: "generateSW",
     devOptions: {
       enabled: true,
+      type: "module",
     },
-    registerWebManifestInRouteRules: true,
-    injectRegister: "inline",
   },
 });
