@@ -1,5 +1,31 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>Halo</div>
+  <CommonNavbar page="Home" />
+  <div
+    class="pt-[70px] px-4 flex flex-col gap-10 items-center justify-center h-screen"
+  >
+    <div class="flex flex-col gap-4 items-center justify-center">
+      <h1 class="font-bold text-4xl">Tes Mata Pintar</h1>
+      <h2 class="text-center">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus,
+        aliquam. Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+        Error, itaque.
+      </h2>
+    </div>
+
+    <div>
+      <p class="italic">Ini fakta unik</p>
+    </div>
+
+    <!-- Button tes -->
+    <div class="flex items-center justify-center text-white font-semibold">
+      <button
+        class="bg-blue-200 rounded-full h-[300px] w-[300px] flex items-center justify-center text-xl"
+      >
+        Mulai Tes
+      </button>
+    </div>
+  </div>
+  <CommonNavbarFooter />
 </template>
