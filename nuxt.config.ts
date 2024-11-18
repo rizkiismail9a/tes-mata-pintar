@@ -7,6 +7,8 @@ export default defineNuxtConfig({
   },
   pages: true,
 
+  css: ["~/assets/css/main.css"],
+
   modules: ["@vite-pwa/nuxt"],
 
   app: {
@@ -111,6 +113,13 @@ export default defineNuxtConfig({
     },
   },
 
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+
   pwa: {
     manifest: {
       name: "Tes Mata Pintar",
@@ -136,7 +145,7 @@ export default defineNuxtConfig({
       importScripts: ["/sw.js"],
       globPatterns: ["**/*.{js,css,html,png,svg,jpg,woff2}"],
     },
-    strategies: "generateSW",
+    strategies: "injectManifest",
     devOptions: {
       enabled: true,
       type: "module",
