@@ -3,7 +3,7 @@
 <template>
   <CommonNavbar page="Home" />
   <div
-    class="pt-[70px] px-4 flex flex-col gap-10 items-center justify-center h-screen"
+    class="py-[70px] px-4 flex flex-col gap-10 items-center justify-center h-screen overflow-y-auto"
   >
     <div class="flex flex-col gap-4 items-center justify-center">
       <h1 class="font-bold text-4xl">Tes Mata Pintar</h1>
@@ -21,9 +21,9 @@
     <!-- Button tes -->
     <div class="flex items-center justify-center text-white font-semibold">
       <button
-        class="bg-blue-200 rounded-full h-[300px] w-[300px] flex items-center justify-center text-xl"
+        class="bg-tmp-green rounded-full h-[200px] w-[200px] flex items-center justify-center text-xl"
       >
-        Mulai Tes
+        <NuxtLink to="/eye-test"> Mulai Tes </NuxtLink>
       </button>
     </div>
   </div>

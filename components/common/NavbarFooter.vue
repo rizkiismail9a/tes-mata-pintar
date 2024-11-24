@@ -3,29 +3,29 @@ const icons = ref<{ icon: string; route: string; label: string }[]>([
   {
     icon: "icon/home.png",
     route: "/",
-    label: "home",
+    label: "beranda",
   },
   {
     icon: "icon/test.png",
-    route: "/",
-    label: "test",
+    route: "/eye-test",
+    label: "tes",
   },
   {
     icon: "icon/info.png",
-    route: "/",
-    label: "about",
+    route: "/about",
+    label: "tentang",
   },
   {
     icon: "icon/user.png",
-    route: "/",
-    label: "user",
+    route: "/profile",
+    label: "profil",
   },
 ]);
 </script>
 
 <template>
   <div
-    class="bg-blue-100 w-full max-w-[570px] h-[70px] p-4 flex items-center justify-between shadow-md fixed bottom-0"
+    class="bg-tmp-green w-full max-w-[570px] h-[70px] p-4 flex items-center justify-between shadow-md fixed bottom-0"
   >
     <NuxtLink
       :to="icon.route"

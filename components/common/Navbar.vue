@@ -6,9 +6,15 @@ defineProps<{
 
 <template>
   <div
-    class="bg-blue-100 w-full max-w-[570px] h-[50px] p-4 flex items-center justify-between shadow-md fixed"
+    class="w-full max-w-[570px] h-[50px] p-4 flex items-center justify-between shadow-md fixed z-50 bg-white"
   >
-    <div>Ini Logo</div>
+    <NuxtLink to="/" class="h-[40px]">
+      <img
+        src="/icon/logo-tmp.png"
+        alt="logo tes mata pintar"
+        class="h-full object-contain"
+      />
+    </NuxtLink>
     <div>{{ page }}</div>
   </div>
 </template>
