@@ -23,7 +23,7 @@
       <button
         class="bg-tmp-green rounded-full h-[200px] w-[200px] flex items-center justify-center text-xl"
       >
-        Mulai Tes
+        <NuxtLink to="/eye-test"> Mulai Tes </NuxtLink>
       </button>
     </div>
   </div>

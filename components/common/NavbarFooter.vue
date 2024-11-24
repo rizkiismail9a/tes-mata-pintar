@@ -7,17 +7,17 @@ const icons = ref<{ icon: string; route: string; label: string }[]>([
   },
   {
     icon: "icon/test.png",
-    route: "/",
+    route: "/eye-test",
     label: "tes",
   },
   {
     icon: "icon/info.png",
-    route: "/",
+    route: "/about",
     label: "tentang",
   },
   {
     icon: "icon/user.png",
-    route: "/",
+    route: "/profile",
     label: "profil",
   },
 ]);
