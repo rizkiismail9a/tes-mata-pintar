@@ -5,6 +5,19 @@ export default defineNuxtConfig({
   devServer: {
     port: 8080,
   },
+
+  runtimeConfig: {
+    public: {
+      apiKey: process.env.FIREBASE_API_KEY,
+      authDomain: process.env.AUTH_DOMAIN,
+      dbUri: process.env.DB_URL,
+      projectId: process.env.PROJECT_ID,
+      storageBucket: process.env.STORAGE_BUCKET,
+      messageSenderId: process.env.MESSAGE_SENDER_ID,
+      appId: process.env.APP_ID,
+    },
+  },
+
   pages: true,
 
   css: ["~/assets/css/main.css"],
