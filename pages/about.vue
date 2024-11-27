@@ -32,7 +32,7 @@ const testGetData = async () => {
 </script>
 
 <template>
-  <CommonNavbar page="about" />
+  <CommonNavbar page="Tentang Kami" />
   <div
     class="py-[70px] px-4 flex flex-col gap-10 items-center justify-center h-screen overflow-y-auto"
   >

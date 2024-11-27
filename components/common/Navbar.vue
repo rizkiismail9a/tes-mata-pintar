@@ -15,6 +15,6 @@ defineProps<{
         class="h-full object-contain"
       />
     </NuxtLink>
-    <div>{{ page }}</div>
+    <div class="text-[18px]">{{ page }}</div>
   </div>
 </template>

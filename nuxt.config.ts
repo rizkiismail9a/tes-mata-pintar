@@ -18,11 +18,17 @@ export default defineNuxtConfig({
     },
   },
 
+  plugins: [
+    {
+      src: "~/plugins/vee-validate.js",
+    },
+  ],
+
   pages: true,
 
   css: ["~/assets/css/main.css"],
 
-  modules: ["@vite-pwa/nuxt"],
+  modules: ["@vite-pwa/nuxt", "@pinia/nuxt"],
 
   app: {
     head: {
