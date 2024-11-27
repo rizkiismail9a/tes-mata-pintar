@@ -20,7 +20,7 @@ const email = ref<string>("");
         class="w-[100px] m-auto"
       />
       <h1 class="font-bold text-3xl">Masuk</h1>
-      <p>Masuk supaya perhatian kami maksimal buat kamu 😺</p>
+      <p>Masuk supaya perhatian kami maksimal buat kamu</p>
       <Form class="flex flex-col gap-4" v-slot="{ errors }">
         <InputForm
           name="username"
