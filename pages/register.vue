@@ -3,6 +3,7 @@ import { Form } from "vee-validate";
 import { ref as firebaseRef, set } from "firebase/database";
 import InputForm from "~/components/common/InputForm.vue";
 import MainButton from "~/components/common/MainButton.vue";
+import LoadingState from "~/components/common/LoadingState.vue";
 
 definePageMeta({
   middleware: "auth",
@@ -17,9 +18,12 @@ const username = ref<string>("");
 const email = ref<string>("");
 const password = ref<string>("");
 const passwordConfirm = ref<string>("");
+const isLoading = ref<boolean>(false);
 
 const register = async () => {
   try {
+    isLoading.value = true;
+
     const data = await registration(
       email.value,
       password.value,
@@ -39,11 +43,14 @@ const register = async () => {
     router.push("/profile");
   } catch (error) {
     console.error("error registration", error);
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>
 
 <template>
+  <LoadingState v-if="isLoading" />
   <CommonNavbar page="Daftar" />
   <div
     class="py-[70px] px-4 flex flex-col gap-10 justify-center h-screen overflow-y-auto"
