@@ -10,9 +10,14 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@pinia-plugin-persistedstate/nuxt": "^1.1.2",
+    "@pinia/nuxt": "^0.7.0",
+    "@vee-validate/rules": "^4.14.7",
     "@vite-pwa/nuxt": "^0.10.6",
     "firebase": "^11.0.2",
     "nuxt": "^3.14.159",
+    "pinia": "^2.2.6",
+    "vee-validate": "^4.14.7",
     "vue": "latest",
     "vue-router": "latest"
   },
