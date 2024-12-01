@@ -3,6 +3,10 @@ import { Form } from "vee-validate";
 import InputForm from "~/components/common/InputForm.vue";
 import MainButton from "~/components/common/MainButton.vue";
 
+definePageMeta({
+  middleware: "auth",
+});
+
 const username = ref<string>("");
 const email = ref<string>("");
 </script>

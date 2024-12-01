@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import { Form } from "vee-validate";
+import { ref as firebaseRef, set } from "firebase/database";
 import InputForm from "~/components/common/InputForm.vue";
 import MainButton from "~/components/common/MainButton.vue";
+
+definePageMeta({
+  middleware: "auth",
+});
+
+const { registration } = useFirebaseAuth();
+const { $firebaseDB } = useNuxtApp();
+const router = useRouter();
 
 const name = ref<string>("");
 const username = ref<string>("");
@@ -9,14 +18,28 @@ const email = ref<string>("");
 const password = ref<string>("");
 const passwordConfirm = ref<string>("");
 
-const register = () => {
-  console.log({
-    name: name.value,
-    username: username.value,
-    email: email.value,
-    password: password.value,
-    passwordConfirm: passwordConfirm.value,
-  });
+const register = async () => {
+  try {
+    const data = await registration(
+      email.value,
+      password.value,
+      name.value,
+      username.value
+    );
+
+    if (data) {
+      const dbRef = firebaseRef($firebaseDB, `/users/${data.user.uid}`);
+      await set(dbRef, {
+        fullName: name.value,
+        email: email.value,
+        username: username.value,
+      });
+    }
+
+    router.push("/profile");
+  } catch (error) {
+    console.error("error registration", error);
+  }
 };
 </script>
 
@@ -44,7 +67,7 @@ const register = () => {
           input-type="text"
           :error-input="errors"
           v-model="name"
-          rules="required:nama|min:6, nama"
+          rules="required:nama|min:4, nama"
         />
         <InputForm
           name="username"

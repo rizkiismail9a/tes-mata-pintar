@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import MainButton from "~/components/common/MainButton.vue";
+
+const { user } = useAuthStore();
 </script>
 
 <template>
@@ -7,7 +9,11 @@ import MainButton from "~/components/common/MainButton.vue";
   <div
     class="py-[70px] px-4 flex flex-col gap-10 items-center justify-center h-screen overflow-y-auto"
   >
-    <div id="profile-content" class="flex items-center flex-col gap-4">
+    <div
+      id="profile-content"
+      v-if="!user.accessToken"
+      class="flex items-center flex-col gap-4"
+    >
       <img
         src="/illustration/sweet-koala.png"
         alt="sweet koala"
@@ -21,6 +27,8 @@ import MainButton from "~/components/common/MainButton.vue";
         @click.native="$router.push('/login')"
       />
     </div>
+
+    <div class="flex items-center flex-col gap-4">Kamu sudah login</div>
   </div>
   <CommonNavbarFooter />
 </template>
