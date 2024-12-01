@@ -28,7 +28,12 @@ const { user } = useAuthStore();
       />
     </div>
 
-    <div class="flex items-center flex-col gap-4">Kamu sudah login</div>
+    <div v-else class="flex items-center flex-col gap-4">
+      <div>nama: {{ user.fullName }}</div>
+      <div>username: {{ user.username }}</div>
+      <div>email: {{ user.email }}</div>
+      <p>Note: Sementara gini dulu</p>
+    </div>
   </div>
   <CommonNavbarFooter />
 </template>
