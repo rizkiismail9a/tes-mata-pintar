@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import MainButton from "~/components/common/MainButton.vue";
 
+definePageMeta({
+  middleware: "auth",
+});
+
 const { user } = useAuthStore();
+
+const token = computed(() => {
+  return user.accessToken;
+});
 </script>
 
 <template>
@@ -11,7 +19,7 @@ const { user } = useAuthStore();
   >
     <div
       id="profile-content"
-      v-if="!user.accessToken"
+      v-if="!token"
       class="flex items-center flex-col gap-4"
     >
       <img
