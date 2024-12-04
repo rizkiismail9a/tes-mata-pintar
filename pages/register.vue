@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { Form } from "vee-validate";
 import { ref as firebaseRef, set } from "firebase/database";
+import { Form } from "vee-validate";
 import InputForm from "~/components/common/InputForm.vue";
-import MainButton from "~/components/common/MainButton.vue";
 import LoadingState from "~/components/common/LoadingState.vue";
+import MainButton from "~/components/common/MainButton.vue";
+import ToastError from "~/components/common/ToastError.vue";
 
 definePageMeta({
   middleware: "auth",
@@ -19,6 +20,7 @@ const email = ref<string>("");
 const password = ref<string>("");
 const passwordConfirm = ref<string>("");
 const isLoading = ref<boolean>(false);
+const isError = ref<boolean>(false);
 
 const register = async () => {
   try {
@@ -40,8 +42,10 @@ const register = async () => {
       });
     }
 
+    isError.value = false;
     router.push("/profile");
   } catch (error) {
+    isError.value = true;
     console.error("error registration", error);
   } finally {
     isLoading.value = false;
@@ -66,6 +70,10 @@ const register = async () => {
       />
       <h1 class="font-bold text-3xl">Daftar</h1>
       <p>Daftar, yuk! Supaya kita bisa saling kenal</p>
+      <ToastError
+        v-if="isError"
+        error-message="Ups, sepertinya ada yang rusak. Jangan khawatir, kami akan memperbaikinya. Silakan coba lagi nanti"
+      />
       <Form class="flex flex-col gap-4" v-slot="{ errors }" @submit="register">
         <InputForm
           name="name"

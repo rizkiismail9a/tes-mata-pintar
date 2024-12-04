@@ -12,6 +12,7 @@ export default {
     extend: {
       colors: {
         "tmp-green": "#0cebeb",
+        "tmp-green-secondary": "#0cc9c9",
         tosca: "#0cebb3",
       },
     },

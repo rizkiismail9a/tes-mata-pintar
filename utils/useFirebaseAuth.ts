@@ -1,9 +1,13 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import type { LoginResponse } from "~/types/login.type";
 import type { RegistrationResponse } from "~/types/register.type";
 import type { User } from "~/types/user.type";
 
 export const useFirebaseAuth = () => {
-  const { $auth } = useNuxtApp();
+  const { $auth, $cookies } = useNuxtApp();
   const authStore = useAuthStore();
 
   const registration = async (
@@ -25,11 +29,10 @@ export const useFirebaseAuth = () => {
 
       authStore.setUser(user);
 
-      const d = new Date();
-      d.setTime(d.getTime() + 30 * 24 * 60 * 60 * 1000);
-      let expires = d.toUTCString();
+      // const d = new Date();
+      let expires = 30 * 24 * 60 * 60 * 1000;
 
-      setCookies(
+      $cookies.setCookies(
         "accessToken",
         (data as unknown as RegistrationResponse).user.accessToken,
         expires
@@ -41,7 +44,18 @@ export const useFirebaseAuth = () => {
     }
   };
 
+  const login = async (email: string, password: string) => {
+    try {
+      const response = await signInWithEmailAndPassword($auth, email, password);
+
+      return response as unknown as LoginResponse;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     registration,
+    login,
   };
 };

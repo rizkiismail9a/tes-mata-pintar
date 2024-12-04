@@ -12,3 +12,13 @@
   font-optical-sizing: auto;
   font-style: normal;
 }
+
+/* Sembunyikan scrollbar */
+* {
+  scrollbar-width: none; /* Untuk Firefox */
+  -ms-overflow-style: none; /* Untuk Internet Explorer */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Untuk Chrome, Safari, dan Edge */
+}
