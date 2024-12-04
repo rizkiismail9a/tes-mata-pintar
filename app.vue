@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { $cookies } = useNuxtApp();
 const authStore = useAuthStore();
-const accessToken = authStore.user.accessToken;
+const accessToken = authStore.user?.accessToken;
 
 onMounted(async () => {
   if (!accessToken) {
