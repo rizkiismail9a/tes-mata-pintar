@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { Form } from "vee-validate";
 import InputForm from "~/components/common/InputForm.vue";
+import LoadingState from "~/components/common/LoadingState.vue";
 import MainButton from "~/components/common/MainButton.vue";
+import ToastError from "~/components/common/ToastError.vue";
 
 import type { LoginResponse } from "~/types/login.type";
 
@@ -16,9 +18,11 @@ const router = useRouter();
 const password = ref<string>("");
 const email = ref<string>("");
 const isError = ref<boolean>(false);
+const isLoading = ref<boolean>(false);
 
 const signIn = async () => {
   try {
+    isLoading.value = true;
     const data = await login(email.value, password.value);
 
     await getUserProfile(
@@ -26,14 +30,18 @@ const signIn = async () => {
       (data as unknown as LoginResponse).user.accessToken
     );
 
+    isError.value = false;
     router.push("/profile");
   } catch (error) {
     isError.value = true;
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>
 
 <template>
+  <LoadingState v-if="isLoading" />
   <CommonNavbar page="Masuk" />
   <div
     class="py-[70px] px-4 flex flex-col gap-10 justify-center h-screen overflow-y-auto"
@@ -47,6 +55,10 @@ const signIn = async () => {
       />
       <h1 class="font-bold text-3xl">Masuk</h1>
       <p>Masuk supaya perhatian kami maksimal buat kamu</p>
+      <ToastError
+        v-if="isError"
+        error-message="Ups, email atau kata sandi kamu salah"
+      />
       <Form class="flex flex-col gap-4" v-slot="{ errors }" @submit="signIn">
         <InputForm
           name="email"
