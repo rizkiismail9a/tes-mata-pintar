@@ -2,7 +2,7 @@
 let scrollInterval: string | number | NodeJS.Timeout | null | undefined = null;
 
 onMounted(() => {
-  scrollInterval = setInterval(animateFacts, 8000);
+  scrollInterval = setInterval(animateFacts, 6000);
 });
 
 onUnmounted(() => {
