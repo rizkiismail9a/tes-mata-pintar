@@ -59,9 +59,13 @@ const animateFacts = () => {
   >
     <div class="flex flex-col gap-4 items-center justify-center">
       <h1 class="font-bold text-2xl">Tes Mata Pintar</h1>
+
       <h2 class="text-center text-sm">
-        Misi kami adalah menjaga kesehatan mata kamu <br />
-        Melihat dunia lebih baik, dimulai dari sini
+        Mata sehat, hati senang, hidup semangat!
+      </h2>
+      <h2 class="text-center text-sm">
+        Misi kami adalah ikut berkontribusi menjaga kesehatan mata masyarakat
+        Indonesia melalui tekonologi yang dapat diakses semua kalangan
       </h2>
     </div>
 
