@@ -34,7 +34,7 @@ const testGetData = async () => {
 <template>
   <CommonNavbar page="Tentang Kami" />
   <div
-    class="pt-[70px] pb-[90px] px-4 flex flex-col gap-8 items-center justify-start h-screen overflow-y-auto"
+    class="pt-[70px] pb-[90px] px-4 flex flex-col gap-5 items-center justify-start h-screen overflow-y-auto"
   >
     <h1 class="w-full text-2xl font-bold">Tentang Kami</h1>
     <section class="flex flex-col gap-2">
