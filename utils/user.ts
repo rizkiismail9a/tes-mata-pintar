@@ -2,8 +2,8 @@ import { child, ref as fbRef, get } from "firebase/database";
 
 /**
  *
- * @param {string} uid
- * @param {string} token
+ * @param {string} uid; Token as path to the users database
+ * @param {string} token; from firebase when login
  */
 export const getUserProfile = async (uid: string, token: string) => {
   try {

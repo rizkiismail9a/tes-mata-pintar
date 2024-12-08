@@ -40,7 +40,7 @@ const logout = async () => {
   <LoadingState v-if="isLoading" />
   <CommonNavbar page="Akun" />
   <div
-    class="py-[70px] px-4 flex flex-col gap-10 items-center justify-center h-screen overflow-y-auto"
+    class="pt-[70px] pb-[90px] px-4 flex flex-col gap-10 items-center justify-center h-screen overflow-y-auto"
   >
     <div
       id="profile-content"
@@ -63,15 +63,38 @@ const logout = async () => {
       />
     </div>
 
-    <div v-else class="flex items-center flex-col gap-4">
-      <div>nama: {{ user?.fullName }}</div>
-      <div>username: {{ user?.username }}</div>
-      <div>email: {{ user?.email }}</div>
-      <p>Note: Sementara gini dulu</p>
+    <div v-else class="flex justify-between h-full w-full flex-col gap-4">
+      <div class="flex gap-4">
+        <div
+          id="profile-photo"
+          class="flex w-fit items-center rounded-full justify-center border border-tmp-green"
+        >
+          <img
+            src="/public/icon/logo-tmp.png"
+            alt="user-profile"
+            class="w-[120px] h-[120px] object-contain"
+          />
+        </div>
+
+        <div class="flex gap-2 justify-center flex-col py-5">
+          <h3 class="font-semibold text-lg">{{ user?.fullName }}</h3>
+          <div class="text-sm">{{ user?.username }}</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center gap-4">
+        <img
+          src="/illustration/sweet-koala.png"
+          alt="sweet koala"
+          title="image by Fuzzy Friend on blush design"
+          class="w-[200px]"
+        />
+        <p class="text-center">Kamu belum ambil tes apapun</p>
+      </div>
 
       <div
         @click="logout"
-        class="flex items-center gap-3 border border-gray-950 p-2 rounded-md hover:bg-gray-300"
+        class="flex items-center gap-3 border w-[100px] border-gray-950 p-2 rounded-md hover:bg-gray-300 mx-auto"
       >
         <img
           class="w-4 h-4"
