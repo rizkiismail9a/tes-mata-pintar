@@ -28,11 +28,7 @@ export default defineNuxtConfig({
 
   css: ["~/assets/css/main.css"],
 
-  modules: [
-    "@vite-pwa/nuxt",
-    "@pinia/nuxt",
-    "@pinia-plugin-persistedstate/nuxt",
-  ],
+  modules: ["@vite-pwa/nuxt", "@pinia/nuxt"],
 
   app: {
     head: {

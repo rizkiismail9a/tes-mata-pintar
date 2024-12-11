@@ -12,6 +12,7 @@ defineProps<{
     :class="[
       'bg-tmp-green rounded p-3 hover:bg-tmp-green-secondary text-sm',
       `${size === 'small' ? 'w-[200px]' : undefined}`,
+      `${size === 'medium' ? 'w-full' : undefined}`,
     ]"
   >
     {{ label }}
@@ -21,6 +22,7 @@ defineProps<{
     :class="[
       'border-tmp-green border rounded p-3 hover:bg-tmp-green-secondary/10 text-sm',
       `${size === 'small' ? 'w-[200px]' : undefined}`,
+      `${size === 'medium' ? 'w-full' : undefined}`,
     ]"
   >
     {{ label }}

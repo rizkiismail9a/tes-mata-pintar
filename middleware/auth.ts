@@ -1,10 +1,9 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   if (import.meta.client) {
-    const authStore = useAuthStore();
-    const accessToken = authStore.user?.accessToken;
+    const accessToken = useCookie("accessToken");
 
     if (to.path === "/login" || to.path === "/register") {
-      if (accessToken) {
+      if (accessToken.value) {
         return navigateTo("/profile");
       }
     }

@@ -5,3 +5,9 @@ export type User = {
   photoProfile?: string;
   accessToken: string;
 } | null;
+
+export type StoredUser =
+  | (User & {
+      uid: string;
+    })
+  | null;

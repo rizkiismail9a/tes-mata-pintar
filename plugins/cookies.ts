@@ -10,7 +10,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   };
 
   const getCookies = (name: string) => {
-    return useCookie(name).value || "";
+    return useCookie(name).value;
   };
 
   nuxtApp.provide("cookies", { setCookies, getCookies });
