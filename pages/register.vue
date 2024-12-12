@@ -39,6 +39,7 @@ const register = async () => {
         fullName: name.value,
         email: email.value,
         username: username.value,
+        photoProfile: "",
       });
     }
 

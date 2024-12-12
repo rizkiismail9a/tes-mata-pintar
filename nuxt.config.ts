@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
-  // devtools: { enabled: true },
+  devtools: { enabled: true },
   devServer: {
     port: 8080,
   },
@@ -28,11 +28,7 @@ export default defineNuxtConfig({
 
   css: ["~/assets/css/main.css"],
 
-  modules: [
-    "@vite-pwa/nuxt",
-    "@pinia/nuxt",
-    "@pinia-plugin-persistedstate/nuxt",
-  ],
+  modules: ["@vite-pwa/nuxt", "@pinia/nuxt"],
 
   app: {
     head: {
