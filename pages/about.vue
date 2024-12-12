@@ -65,13 +65,13 @@ const testGetData = async () => {
         <div
           class="flex flex-col gap-1 items-center bg-tmp-green p-3 rounded-md flex-1"
         >
-          <div class="font-bold text-white">1000</div>
+          <div class="font-bold text-white">0</div>
           <span class="text-center">tes rabun</span>
         </div>
         <div
           class="flex flex-col gap-1 items-center bg-tmp-green p-3 rounded-md flex-1"
         >
-          <div class="font-bold text-white">1000</div>
+          <div class="font-bold text-white">0</div>
           <span class="text-center">tes buta warna</span>
         </div>
       </div>

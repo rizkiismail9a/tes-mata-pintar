@@ -124,7 +124,6 @@ const setImage = (event: Event) => {
         size="small"
         @click.native="router.push('/login')"
       />
-      <NuxtLink to="/login"> login </NuxtLink>
     </div>
 
     <div v-else class="flex justify-between h-full w-full flex-col gap-4">

@@ -4,7 +4,7 @@
   <div>
     <NuxtPwaManifest />
     <NuxtLayout>
-      <NuxtPage keepalive />
+      <NuxtPage />
     </NuxtLayout>
   </div>
 </template>
