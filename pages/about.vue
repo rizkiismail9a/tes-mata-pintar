@@ -9,8 +9,10 @@ import {
 
 const { $firebaseDB } = useNuxtApp();
 
+const totalUsers = ref<number>(0);
+
 onMounted(async () => {
-  // await testGetData();
+  totalUsers.value = await getUsersSize();
 });
 
 const testGetData = async () => {
@@ -57,7 +59,7 @@ const testGetData = async () => {
         <div
           class="flex flex-col gap-1 items-center bg-tmp-green p-3 rounded-md flex-1"
         >
-          <div class="font-bold text-white">1000</div>
+          <div class="font-bold text-white">{{ totalUsers || "-" }}</div>
           <span class="text-center">pengguna aktif</span>
         </div>
         <div
