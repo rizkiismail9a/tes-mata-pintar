@@ -1,12 +1,19 @@
 <script setup lang="ts">
+import {
+  ref as firebaseRef,
+  push,
+  serverTimestamp,
+  set,
+} from "firebase/database";
 import MainButton from "../common/MainButton.vue";
 
-const { $cookies } = useNuxtApp();
+const { $cookies, $firebaseDB } = useNuxtApp();
 
 const props = defineProps<{
   condition: "normal" | "abnormal";
   subMessage: string;
   buttonText: "Kembali ke Beranda" | "Lanjut Mata Kanan";
+  testType: string;
 }>();
 
 const emits = defineEmits<{
@@ -26,15 +33,57 @@ const colorBlindState = ref({
   },
 });
 
-const onButtonClick = () => {
-  document.exitFullscreen();
+const submitTestResult = async () => {
+  try {
+    const userid = $cookies.getCookies("userId");
+    if (props.testType === "color-blind") {
+      const dbRef = firebaseRef($firebaseDB, `/test-histories/`);
+      const newData = push(dbRef);
+
+      await set(newData, {
+        userId: userid,
+        diagnose:
+          props.condition === "normal" ? "normal" : "terindikasi buta warna",
+        testedAt: serverTimestamp(),
+      });
+    }
+
+    if (props.testType === "sight-test") {
+      const leftEyeDiagnose = JSON.parse(
+        localStorage.getItem("leftEyeResult") ?? ""
+      );
+
+      const rightEyeDiagnose = JSON.parse(
+        localStorage.getItem("rightEyeResult") ?? ""
+      ); // valuenya akan boolean
+
+      const dbRef = firebaseRef($firebaseDB, `/test-histories/`);
+      const newData = push(dbRef);
+
+      await set(newData, {
+        userId: userid,
+        diagnose: {
+          leftEye: leftEyeDiagnose ? "normal" : "terindikasi gangguan mata",
+          rightEye: rightEyeDiagnose ? "normal" : "terindikasi gangguan mata",
+        },
+        testedAt: serverTimestamp(),
+      });
+    }
+  } catch (error) {
+    console.error("error submit data test", error);
+  }
+};
+
+const onButtonClick = async () => {
   const token = $cookies.getCookies("accessToken");
   if (props.buttonText === "Kembali ke Beranda") {
     if (token) {
+      await submitTestResult();
       router.push("/profile");
       return;
     }
     router.push("/");
+    document.exitFullscreen();
   } else {
     emits("readyRightEye");
   }

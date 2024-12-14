@@ -117,6 +117,7 @@ const onReadyRightEye = () => {
     :condition="testResult ? 'normal' : 'abnormal'"
     :sub-message="subMessage"
     :button-text="buttonText"
+    :test-type="testType"
     @ready-right-eye="onReadyRightEye"
   />
 
