@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { signOut } from "firebase/auth";
-import { ref as firebaseRef, set } from "firebase/database";
+import {
+  equalTo,
+  ref as firebaseRef,
+  get,
+  orderByChild,
+  query,
+  set,
+} from "firebase/database";
 import LoadingState from "~/components/common/LoadingState.vue";
 import MainButton from "~/components/common/MainButton.vue";
+import TextBadge from "~/components/common/TextBadge.vue";
 import UploadImage from "~/components/Profile/UploadImage.vue";
 
 definePageMeta({
@@ -19,11 +27,15 @@ const userId = $cookies.getCookies("userId");
 const isLoading = ref<boolean>(false);
 const showCropper = ref<boolean>(false);
 const imageSrc = ref<File>();
+const testHistory = ref();
 
 onMounted(async () => {
   if (!authStore.user) {
     isLoading.value = true;
     await getUserProfile(userId, token);
+    if (token) {
+      await getTestHistory();
+    }
     isLoading.value = false;
   }
 });
@@ -95,6 +107,45 @@ const setImage = (event: Event) => {
     // reader.readAsDataURL(file);
     showCropper.value = true;
   }
+};
+
+const getTestHistory = async () => {
+  try {
+    const dbRef = firebaseRef($firebaseDB, "test-histories");
+    const data = await get(
+      query(dbRef, orderByChild("userId"), equalTo(userId))
+    );
+
+    if (data.exists()) {
+      testHistory.value = data.val();
+    }
+  } catch (error) {
+    console.error("error get history", error);
+  }
+};
+
+const formatDate = (target: string) => {
+  const monthList = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "Mei",
+    "Jun",
+    "Jul",
+    "Agst",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Des",
+  ];
+
+  const date = new Date(target);
+  const day = date.getDate();
+  const month = monthList[date.getMonth()];
+  const year = date.getFullYear();
+
+  return `${day} ${month} ${year}`;
 };
 </script>
 
@@ -171,14 +222,64 @@ const setImage = (event: Event) => {
         </div>
       </div>
 
-      <div class="flex flex-col items-center gap-4">
-        <img
-          src="/illustration/sweet-koala.png"
-          alt="sweet koala"
-          title="image by Fuzzy Friend on blush design"
-          class="w-[200px]"
-        />
-        <p class="text-center">Kamu belum ambil tes apapun</p>
+      <div
+        class="flex flex-col items-center gap-4 h-[300px] overflow-auto py-2"
+      >
+        <template v-if="!testHistory">
+          <img
+            src="/illustration/sweet-koala.png"
+            alt="sweet koala"
+            title="image by Fuzzy Friend on blush design"
+            class="w-[200px]"
+          />
+          <p class="text-center">Kamu belum ambil tes apapun</p>
+        </template>
+        <table v-else class="table-auto w-full">
+          <thead>
+            <tr>
+              <th class="bg-tmp-green-secondary/50"></th>
+              <th class="bg-tmp-green-secondary/50">Tanggal Tes</th>
+              <th class="bg-tmp-green-secondary/50">Tipe Tes</th>
+              <th class="bg-tmp-green-secondary/50">Hasil</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr v-for="(val, key, index) in testHistory">
+              <td>{{ index + 1 }}</td>
+              <td>{{ formatDate(val.testedAt) }}</td>
+              <td>
+                {{ val.testType === "color-blind" ? "Buta Warna" : "Rabun" }}
+              </td>
+              <td v-if="val.testType === 'color-blind'">
+                <TextBadge
+                  :label="val.diagnose"
+                  :type="val.diagnose === 'normal' ? 'success' : 'danger'"
+                />
+              </td>
+              <td v-else>
+                <div class="flex items-center gap-1">
+                  <span>Kiri:</span>
+                  <TextBadge
+                    :label="val.diagnose.leftEye"
+                    :type="
+                      val.diagnose.leftEye === 'normal' ? 'success' : 'danger'
+                    "
+                  />
+                </div>
+                <div class="flex items-center gap-1">
+                  <span>Kanan:</span>
+                  <TextBadge
+                    :label="val.diagnose.rightEye"
+                    :type="
+                      val.diagnose.rightEye === 'normal' ? 'success' : 'danger'
+                    "
+                  />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <div
@@ -198,4 +299,16 @@ const setImage = (event: Event) => {
   <CommonNavbarFooter />
 </template>
 
-<style scoped></style>
+<style scoped>
+th {
+  padding: 6px;
+  border: solid 1px black;
+  text-align: center;
+}
+
+td {
+  padding: 6px;
+  border: solid 1px black;
+  text-align: center;
+}
+</style>

@@ -10,25 +10,45 @@ import {
 const { $firebaseDB } = useNuxtApp();
 
 const totalUsers = ref<number>(0);
+const totalColorBlindTest = ref<number>(0);
+const totalSightTest = ref<number>(0);
 
 onMounted(async () => {
   totalUsers.value = await getUsersSize();
+  await Promise.all([getColorBlindSize(), getSightTestSize()]);
 });
 
-const testGetData = async () => {
+const getColorBlindSize = async () => {
   try {
     const dbRef = fbRef($firebaseDB, "test-histories");
     const data = await get(
-      query(dbRef, orderByChild("diagnose"), equalTo("normal"))
+      query(dbRef, orderByChild("testType"), equalTo("color-blind"))
     );
 
     if (data.exists()) {
-      console.log(data.val());
+      totalColorBlindTest.value = data.size;
     } else {
       console.log("Data tidak tersedia");
     }
   } catch (error) {
-    console.error(error);
+    console.error("error get color blind size", error);
+  }
+};
+
+const getSightTestSize = async () => {
+  try {
+    const dbRef = fbRef($firebaseDB, "test-histories");
+    const data = await get(
+      query(dbRef, orderByChild("testType"), equalTo("sight-test"))
+    );
+
+    if (data.exists()) {
+      totalSightTest.value = data.size;
+    } else {
+      console.log("Data tidak tersedia");
+    }
+  } catch (error) {
+    console.error("error get color blind size", error);
   }
 };
 </script>
@@ -65,13 +85,15 @@ const testGetData = async () => {
         <div
           class="flex flex-col gap-1 items-center bg-tmp-green p-3 rounded-md flex-1"
         >
-          <div class="font-bold text-white">0</div>
+          <div class="font-bold text-white">{{ totalSightTest || "-" }}</div>
           <span class="text-center">tes rabun</span>
         </div>
         <div
           class="flex flex-col gap-1 items-center bg-tmp-green p-3 rounded-md flex-1"
         >
-          <div class="font-bold text-white">0</div>
+          <div class="font-bold text-white">
+            {{ totalColorBlindTest || "-" }}
+          </div>
           <span class="text-center">tes buta warna</span>
         </div>
       </div>
