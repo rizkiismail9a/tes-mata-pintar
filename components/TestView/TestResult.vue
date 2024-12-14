@@ -1,26 +1,44 @@
 <script setup lang="ts">
 import MainButton from "../common/MainButton.vue";
 
-defineProps<{
+const { $cookies } = useNuxtApp();
+
+const props = defineProps<{
   condition: "normal" | "abnormal";
+  subMessage: string;
+  buttonText: "Kembali ke Beranda" | "Lanjut Mata Kanan";
+}>();
+
+const emits = defineEmits<{
+  readyRightEye: [];
 }>();
 
 const router = useRouter();
 
-const state = ref({
+const colorBlindState = ref({
   normal: {
     image: "outdoors.png",
     message: "Mengagumkan!",
-    subMessage:
-      "Hasil tes menunjukkan bahwa mata kamu normal. Kamu dapat menjawab semua soal dengan benar! Terima kasih telah melakukan tes bersama kami. Tetap jaga kesehatan mata kamu dengan baik :D",
   },
   abnormal: {
     image: "sweet-koala.png",
     message: "Mohon maaf",
-    subMessage:
-      "Hasil tes menunjukkan adanya indikasi buta warna. Jangan khawatir, ini bukanlah sesuatu yang perlu ditakuti. Kami sarankan untuk berkonsultasi segera dengan dokter mata terdekat untuk pemeriksaan lebih lanjut dan saran yang lebih mendalam.",
   },
 });
+
+const onButtonClick = () => {
+  document.exitFullscreen();
+  const token = $cookies.getCookies("accessToken");
+  if (props.buttonText === "Kembali ke Beranda") {
+    if (token) {
+      router.push("/profile");
+      return;
+    }
+    router.push("/");
+  } else {
+    emits("readyRightEye");
+  }
+};
 </script>
 
 <template>
@@ -35,29 +53,39 @@ const state = ref({
         @click="router.push('/')"
       />
     </div>
+
     <div
       class="flex items-center gap-4 flex-col px-4 py-20 justify-center h-full w-full"
     >
       <img
-        :src="`/illustration/${state[condition].image}`"
+        :src="`/illustration/${colorBlindState[condition].image}`"
         alt="test-result"
         class="w-[170px]"
       />
       <div class="text-center">
-        <p class="font-bold">{{ state[condition].message }}</p>
-        <p class="text-sm">
-          {{ state[condition].subMessage }}
+        <p class="font-bold">{{ colorBlindState[condition].message }}</p>
+        <p class="text-sm" v-if="condition === 'normal'">
+          Hasil tes menunjukkan bahwa mata kamu normal. Kamu dapat menjawab
+          semua soal dengan benar! Terima kasih telah melakukan tes bersama
+          kami. Tetap jaga kesehatan mata kamu dengan baik :D
+        </p>
+        <p class="text-sm" v-else>
+          Hasil tes menunjukkan adanya indikasi {{ subMessage }}. Jangan
+          khawatir, ini bukanlah sesuatu yang perlu ditakuti. Kami sarankan
+          untuk berkonsultasi segera dengan dokter mata terdekat untuk
+          pemeriksaan lebih lanjut dan saran yang lebih mendalam.
         </p>
       </div>
       <MainButton
-        label="Kembali ke Beranda"
+        :label="buttonText"
         size="small"
-        @click.native="router.push('/')"
+        @click.native="onButtonClick"
       />
     </div>
+
     <div class="flex gap-1 py-8 px-3 items-baseline">
       <img src="/icon/info(1).png" alt="info" class="w-[15px]" />
-      <span class="text-sm">
+      <span class="text-sm font-bold">
         Perhatian! Hasil tes kami tidak bisa digunakan untuk menggantikan hasil
         diagnosa dokter mata. Untuk hasil lebih akurat dan resmi,
         berkonsultasilah ke dokter mata terdekat

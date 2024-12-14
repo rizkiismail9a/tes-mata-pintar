@@ -5,3 +5,12 @@ export type BlindTest = {
     value: string;
   }[];
 };
+
+export type SightTest = {
+  letters: string;
+  size: number; // in mm
+  options: {
+    label: string;
+    value: string;
+  }[];
+};

@@ -47,7 +47,7 @@ const goToLogin = () => {
       <MainButton
         label="Mulai Tes Rabun"
         size="medium"
-        @click.native="router.push('/eye-test/sight')"
+        @click.native="router.push('/eye-test/sight-test')"
       />
       <MainButton
         label="Mulai Tes Buta Warna"
