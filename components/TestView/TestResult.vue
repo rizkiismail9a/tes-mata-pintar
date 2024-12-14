@@ -45,6 +45,7 @@ const submitTestResult = async () => {
         diagnose:
           props.condition === "normal" ? "normal" : "terindikasi buta warna",
         testedAt: serverTimestamp(),
+        testType: props.testType,
       });
     }
 
@@ -62,6 +63,7 @@ const submitTestResult = async () => {
 
       await set(newData, {
         userId: userid,
+        testType: props.testType,
         diagnose: {
           leftEye: leftEyeDiagnose ? "normal" : "terindikasi gangguan mata",
           rightEye: rightEyeDiagnose ? "normal" : "terindikasi gangguan mata",
@@ -77,13 +79,13 @@ const submitTestResult = async () => {
 const onButtonClick = async () => {
   const token = $cookies.getCookies("accessToken");
   if (props.buttonText === "Kembali ke Beranda") {
+    document.exitFullscreen();
     if (token) {
       await submitTestResult();
       router.push("/profile");
       return;
     }
     router.push("/");
-    document.exitFullscreen();
   } else {
     emits("readyRightEye");
   }
