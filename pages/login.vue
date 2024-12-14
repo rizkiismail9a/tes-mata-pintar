@@ -14,6 +14,7 @@ definePageMeta({
 const { login } = useFirebaseAuth();
 
 const router = useRouter();
+const route = useRoute();
 
 const password = ref<string>("");
 const email = ref<string>("");
@@ -31,7 +32,12 @@ const signIn = async () => {
     );
 
     isError.value = false;
-    router.push("/profile");
+
+    if (route.query.redirect) {
+      router.push(`/${route.query.redirect}`);
+    } else {
+      router.push("/profile");
+    }
   } catch (error) {
     isError.value = true;
   } finally {
