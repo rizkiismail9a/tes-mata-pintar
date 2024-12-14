@@ -32,6 +32,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
+      title: "Tes Mata Pintar",
       htmlAttrs: {
         lang: "id",
       },
@@ -66,69 +67,70 @@ export default defineNuxtConfig({
           href: "/site.webmanifest",
         },
       ],
-      // meta: [
-      //   { charset: "utf-8" },
-      //   {
-      //     name: "viewport",
-      //     content: "width=device-width, initial-scale=1.0",
-      //   },
-      //   {
-      //     name: "description",
-      //     content:
-      //       "Aplikasi penyaji tips, trik, dan solusi inovatif untuk mengatasi masalah bug dan konfigurasi dalam pengembangan software. Didesain khusus untuk developer pemula yang ingin belajar lebih mudah dan efisien.",
-      //   },
-      //   {
-      //     name: "keywords",
-      //     content:
-      //       "javascript, website, developer, pemula, bug, error, cara, trik",
-      //   },
-      //   {
-      //     name: "author",
-      //     content: "Yuri S. Ostrovsky",
-      //   },
-      //   {
-      //     name: "robots",
-      //     content: "index, follow",
-      //   },
-      //   {
-      //     property: "og:title",
-      //     content: "senimentari blog: jurnal perjalanan belajar",
-      //   },
-      //   {
-      //     property: "og:description",
-      //     content:
-      //       "Kumpulan artikel yang berisi tips, trik, dan panduan konfigurasi serta debug pada pengembangan software",
-      //   },
-      //   {
-      //     property: "og:type",
-      //     content: "article",
-      //   },
-      //   {
-      //     property: "og:url",
-      //     content: "https://senimentari-blog.vercel.app/",
-      //   },
-      //   {
-      //     property: "og:image",
-      //     content: "https://senimentari-blog.vercel.app/images/logo-blog.webp",
-      //   },
-      //   {
-      //     name: "twitter:card",
-      //     content: "summary_large_image",
-      //   },
-      //   {
-      //     name: "twitter:title",
-      //     content: "senimentari blog: jurnal perjalanan belajar",
-      //   },
-      //   {
-      //     name: "twitter:description",
-      //     content:
-      //       "Aplikasi penyaji tips, trik, dan solusi inovatif untuk mengatasi masalah bug dan konfigurasi dalam pengembangan software.",
-      //   },
-      //   {
-      //     name: "twitter:image",
-      //     content: "https://senimentari-blog.vercel.app/images/logo-blog.webp",
-      //   },
-      // ],
+      meta: [
+        { charset: "utf-8" },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1.0",
+        },
+        {
+          name: "description",
+          content:
+            "Tes Mata Pintar adalah aplikasi PWA gratis yang membantu kamu melakukan tes rabun dan buta warna secara mudah. Dikembangkan oleh mahasiswa UNSIA sebagai tugas ICT Literacy.",
+        },
+        {
+          name: "keywords",
+          content:
+            "tes mata pintar, tes rabun, tes buta warna, aplikasi gratis, PWA, kesehatan mata, ICT Literacy",
+        },
+        {
+          name: "author",
+          content:
+            "Kelompok 7 Mahasiswa UNSIA IF103 2024/25 kelas ICT Literacy",
+        },
+        {
+          name: "robots",
+          content: "index, follow",
+        },
+        {
+          property: "og:title",
+          content: "Tes Mata Pintar: Tes Mata Online Gratis",
+        },
+        {
+          property: "og:description",
+          content:
+            "Tes Mata Pintar adalah aplikasi PWA gratis yang membantu kamu melakukan tes rabun dan buta warna secara mudah. Dikembangkan oleh mahasiswa UNSIA sebagai tugas ICT Literacy.",
+        },
+        {
+          property: "og:type",
+          content: "website",
+        },
+        {
+          property: "og:url",
+          content: "https://tes-mata-pintar.vercel.app/",
+        },
+        {
+          property: "og:image",
+          content: "https://tes-mata-pintar.vercel.app/icon/logo-tmp.png",
+        },
+        {
+          name: "twitter:card",
+          content: "summary_large_image",
+        },
+        {
+          name: "twitter:title",
+          content: "Tes Mata Pintar: Tes Mata Online Gratis",
+        },
+        {
+          name: "twitter:description",
+          content:
+            "Tes Mata Pintar adalah aplikasi PWA gratis yang membantu kamu melakukan tes rabun dan buta warna secara mudah. Dikembangkan oleh mahasiswa UNSIA sebagai tugas ICT Literacy.",
+        },
+        {
+          name: "twitter:image",
+          content: "https://tes-mata-pintar.vercel.app/icon/logo-tmp.png",
+        },
+      ],
     },
   },
 
