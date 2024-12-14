@@ -41,7 +41,7 @@ const submitTestResult = async () => {
       const newData = push(dbRef);
 
       await set(newData, {
-        userId: userid,
+        userId: userid ?? "",
         diagnose:
           props.condition === "normal" ? "normal" : "terindikasi buta warna",
         testedAt: serverTimestamp(),
@@ -62,7 +62,7 @@ const submitTestResult = async () => {
       const newData = push(dbRef);
 
       await set(newData, {
-        userId: userid,
+        userId: userid ?? "",
         testType: props.testType,
         diagnose: {
           leftEye: leftEyeDiagnose ? "normal" : "terindikasi gangguan mata",
@@ -80,8 +80,8 @@ const onButtonClick = async () => {
   const token = $cookies.getCookies("accessToken");
   if (props.buttonText === "Kembali ke Beranda") {
     document.exitFullscreen();
+    await submitTestResult();
     if (token) {
-      await submitTestResult();
       router.push("/profile");
       return;
     }
