@@ -38,6 +38,8 @@ export const useFirebaseAuth = () => {
         expires
       );
 
+      $cookies.setCookies("userId", data.user.uid, expires);
+
       return data as unknown as RegistrationResponse;
     } catch (error) {
       console.error(error);

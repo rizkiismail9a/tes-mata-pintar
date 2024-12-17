@@ -37,9 +37,9 @@ const confirm = () => {
       class="flex flex-col items-center gap-5 h-[30%]"
     >
       <p class="text-center">
-        Untuk menyocokkan ukuran layar dan ukuran sebenarnya, letakkan kartu ATM
-        atau KTP pada kotak di atas dan geser slide di bawah agar ukuran kotak
-        sama dengan kartu.
+        Letakkan kartu ATM atau KTP pada kotak di atas dan geser slide di bawah
+        agar ukuran kotak menyesuaikan kartu. Apabila terpotong, cukup sesuaikan
+        tinggi kartu saja
       </p>
       <div class="w-full">
         <input
