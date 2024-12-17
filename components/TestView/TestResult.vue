@@ -5,6 +5,7 @@ import {
   serverTimestamp,
   set,
 } from "firebase/database";
+import LoadingState from "../common/LoadingState.vue";
 import MainButton from "../common/MainButton.vue";
 
 const { $cookies, $firebaseDB } = useNuxtApp();
@@ -21,6 +22,8 @@ const emits = defineEmits<{
 }>();
 
 const router = useRouter();
+
+const isLoading = ref<boolean>(false);
 
 const colorBlindState = ref({
   normal: {
@@ -77,22 +80,33 @@ const submitTestResult = async () => {
 };
 
 const onButtonClick = async () => {
-  const token = $cookies.getCookies("accessToken");
-  if (props.buttonText === "Kembali ke Beranda") {
-    document.exitFullscreen();
-    await submitTestResult();
-    if (token) {
-      router.push("/profile");
-      return;
+  try {
+    isLoading.value = true;
+    const token = $cookies.getCookies("accessToken");
+
+    if (props.buttonText === "Kembali ke Beranda") {
+      document.exitFullscreen();
+      await submitTestResult();
+
+      if (token) {
+        router.push("/profile");
+        return;
+      }
+
+      router.push("/");
+    } else {
+      emits("readyRightEye");
     }
-    router.push("/");
-  } else {
-    emits("readyRightEye");
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>
 
 <template>
+  <LoadingState v-if="isLoading" />
   <div
     class="flex flex-col items-center bg-gray-50 h-screen w-full fixed z-10 max-w-[570px]"
   >

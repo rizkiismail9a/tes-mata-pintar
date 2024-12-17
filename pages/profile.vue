@@ -30,14 +30,8 @@ const imageSrc = ref<File>();
 const testHistory = ref();
 
 onMounted(async () => {
-  if (!authStore.user) {
-    isLoading.value = true;
-    await getUserProfile(userId, token);
-    if (token) {
-      await getTestHistory();
-    }
-    isLoading.value = false;
-  }
+  isLoading.value = true;
+  await getUserData();
 });
 
 const logout = async () => {
@@ -52,6 +46,20 @@ const logout = async () => {
 
     authStore.clearUser();
     window.location.reload();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const getUserData = async () => {
+  try {
+    await getUserProfile(userId, token);
+
+    if (token) {
+      await getTestHistory();
+    }
   } catch (error) {
     console.error(error);
   } finally {
