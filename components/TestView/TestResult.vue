@@ -97,6 +97,8 @@ const onButtonClick = async () => {
     } else {
       emits("readyRightEye");
     }
+
+    sessionStorage.setItem("isAfterTest", JSON.stringify(true));
   } catch (error) {
     console.error(error);
   } finally {
@@ -126,6 +128,7 @@ const onButtonClick = async () => {
         :src="`/illustration/${colorBlindState[condition].image}`"
         alt="test-result"
         class="w-[170px]"
+        title="image by Fuzzy Friend on blush design"
       />
       <div class="text-center">
         <p class="font-bold">{{ colorBlindState[condition].message }}</p>

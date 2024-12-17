@@ -41,7 +41,11 @@ const goToLogin = () => {
     />
 
     <div class="flex flex-col items-center gap-5">
-      <img src="/public/illustration/playful-fox.png" alt="fox" />
+      <img
+        src="/public/illustration/playful-fox.png"
+        alt="fox"
+        title="image by Fuzzy Friend on blush design"
+      />
       <p>Mulai tes gratis dengan memilih salah satu menu di bawah ini</p>
 
       <MainButton
