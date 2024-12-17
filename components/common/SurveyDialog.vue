@@ -25,6 +25,7 @@ const goToSurveyForm = () => {
           src="/illustration/elegant-giraffe.png"
           alt="elegent-giraffe"
           class="w-[170px]"
+          title="image by Fuzzy Friend on blush design"
         />
         <div class="text-center">
           Bagaimana pengalaman kamu bersama kami? Yuk, cerita
