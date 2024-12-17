@@ -97,6 +97,8 @@ const onButtonClick = async () => {
     } else {
       emits("readyRightEye");
     }
+
+    sessionStorage.setItem("isAfterTest", JSON.stringify(true));
   } catch (error) {
     console.error(error);
   } finally {

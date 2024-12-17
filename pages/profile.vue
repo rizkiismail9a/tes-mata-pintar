@@ -10,6 +10,7 @@ import {
 } from "firebase/database";
 import LoadingState from "~/components/common/LoadingState.vue";
 import MainButton from "~/components/common/MainButton.vue";
+import SurveyDialog from "~/components/common/SurveyDialog.vue";
 import TextBadge from "~/components/common/TextBadge.vue";
 import UploadImage from "~/components/Profile/UploadImage.vue";
 
@@ -28,10 +29,17 @@ const isLoading = ref<boolean>(false);
 const showCropper = ref<boolean>(false);
 const imageSrc = ref<File>();
 const testHistory = ref();
+const showSurvey = ref<boolean>(false);
 
 onMounted(async () => {
   isLoading.value = true;
   await getUserData();
+
+  const isFromTestPage = JSON.parse(
+    sessionStorage.getItem("isAfterTest") ?? "false"
+  );
+
+  if (isFromTestPage) showSurvey.value = true;
 });
 
 const logout = async () => {
@@ -155,12 +163,19 @@ const formatDate = (target: string) => {
 
   return `${day} ${month} ${year}`;
 };
+
+const closeSurveyDialog = () => {
+  sessionStorage.removeItem("isAfterTest");
+  showSurvey.value = false;
+};
 </script>
 
 <template>
   <LoadingState v-if="isLoading" />
+  <SurveyDialog v-if="showSurvey" @close-dialog="closeSurveyDialog" />
   <UploadImage v-if="showCropper" @crop-image="cropImage" :image="imageSrc" />
   <CommonNavbar page="Akun" />
+
   <div
     class="pt-[70px] pb-[90px] px-4 flex flex-col gap-10 items-center justify-center h-screen overflow-y-auto"
   >

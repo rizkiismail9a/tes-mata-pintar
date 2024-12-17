@@ -1,13 +1,7 @@
 <script setup lang="ts">
+import SurveyDialog from "~/components/common/SurveyDialog.vue";
+
 let scrollInterval: string | number | NodeJS.Timeout | null | undefined = null;
-
-onMounted(() => {
-  scrollInterval = setInterval(animateFacts, 6000);
-});
-
-onUnmounted(() => {
-  clearInterval(scrollInterval as number);
-});
 
 const funFacts = ref<{ title: string; value: string }[]>([
   {
@@ -37,6 +31,21 @@ const funFacts = ref<{ title: string; value: string }[]>([
   },
 ]);
 const activeFactIndex = ref<number>(0);
+const showSurvey = ref<boolean>(false);
+
+onMounted(() => {
+  const isFromTestPage = JSON.parse(
+    sessionStorage.getItem("isAfterTest") ?? "false"
+  );
+
+  if (isFromTestPage) showSurvey.value = true;
+
+  scrollInterval = setInterval(animateFacts, 6000);
+});
+
+onUnmounted(() => {
+  clearInterval(scrollInterval as number);
+});
 
 const animateFacts = () => {
   const element = document.getElementById(`funfact-${activeFactIndex.value}`);
@@ -50,10 +59,17 @@ const animateFacts = () => {
     activeFactIndex.value = 0;
   }
 };
+
+const closeSurveyDialog = () => {
+  sessionStorage.removeItem("isAfterTest");
+  showSurvey.value = false;
+};
 </script>
 
 <template>
   <CommonNavbar page="Beranda" />
+  <SurveyDialog v-if="showSurvey" @close-dialog="closeSurveyDialog" />
+
   <div
     class="py-[70px] mb-10 px-4 flex flex-col gap-10 items-center justify-start h-screen overflow-y-auto"
   >
