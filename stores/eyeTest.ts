@@ -357,7 +357,7 @@ export const useEyeTestStore = defineStore("eyeTestStore", {
               value: "total",
             },
             {
-              label: "Sebuah garis",
+              label: "Sebuah garis merah ungu",
               value: "red-green deficiency",
             },
             {

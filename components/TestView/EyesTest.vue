@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import type { BlindTest, SightTest } from "~/types/eyeTest.type";
 import MainButton from "../common/MainButton.vue";
 import CoverEyesInfo from "./CoverEyesInfo.vue";
 import ScreenCalibrator from "./ScreenCalibrator.vue";
 import TestIntsruction from "./TestIntsruction.vue";
 import TestResult from "./TestResult.vue";
+
+type TestAnswers = { label: string | number; value: string };
 
 const eyeTestStore = useEyeTestStore();
 const { $cookies } = useNuxtApp();
@@ -23,13 +26,34 @@ const buttonText = ref<"Kembali ke Beranda" | "Lanjut Mata Kanan">(
   "Kembali ke Beranda"
 );
 
-const colorBlindQuestions = computed(() => {
-  return eyeTestStore.colorBlindTesQuestions;
-});
+// const colorBlindQuestions = computed(() => {
+//   return eyeTestStore.colorBlindTesQuestions;
+// });
 
-const sightEyeTestQuestions = computed(() => {
-  return eyeTestStore.sightEyeTest;
-});
+// const sightEyeTestQuestions = computed(() => {
+//   return eyeTestStore.sightEyeTest;
+// });
+
+// For shuffle the anwser and question
+const shuffle = (array: TestAnswers[] | BlindTest[] | SightTest[]) => {
+  return array.sort(() => Math.random() - 0.5);
+};
+
+// Get the questions from store or from API
+const getColorBlindQuestions = () => {
+  const questions = eyeTestStore.colorBlindTesQuestions;
+  return shuffle(questions);
+};
+
+const getSightTestQuestions = () => {
+  const questions = eyeTestStore.sightEyeTest;
+  return shuffle(questions);
+};
+
+// use let, we wanna shuffle it again
+let sightEyeTestQuestions = getSightTestQuestions() as SightTest[];
+
+const colorBlindQuestions = getColorBlindQuestions() as BlindTest[];
 
 const testResult = computed(() => {
   return answers.value.every((item) => {
@@ -49,7 +73,7 @@ const understoodIntstruction = () => {
 const chooseIshiharaAnswer = (value: string) => {
   answers.value?.push(value);
 
-  if (activeQuestion.value !== colorBlindQuestions.value.length - 1) {
+  if (activeQuestion.value !== colorBlindQuestions.length - 1) {
     activeQuestion.value++;
   } else {
     showResult.value = true;
@@ -60,7 +84,7 @@ const chooseIshiharaAnswer = (value: string) => {
 const chooseSnellenAnswer = (value: string) => {
   answers.value?.push(value);
 
-  if (activeQuestion.value !== sightEyeTestQuestions.value.length - 1) {
+  if (activeQuestion.value !== sightEyeTestQuestions.length - 1) {
     activeQuestion.value++;
   } else {
     if (sightTestRound.value === 1) {
@@ -71,6 +95,9 @@ const chooseSnellenAnswer = (value: string) => {
       if (token) {
         localStorage.setItem("leftEyeResult", JSON.stringify(testResult.value));
       }
+
+      // Shuffle the questiosn again
+      sightEyeTestQuestions = getSightTestQuestions() as SightTest[];
     } else {
       buttonText.value = "Kembali ke Beranda";
       subMessage.value = "gangguan mata kanan kamu";
@@ -149,20 +176,22 @@ const onReadyRightEye = () => {
       <p class="text-center text-xl">Apa yang kamu lihat?</p>
       <template v-if="testType === 'color-blind'">
         <MainButton
-          v-for="answer in colorBlindQuestions[activeQuestion].options"
-          :key="answer.label"
-          :label="answer.label.toString()"
+          v-for="answer in shuffle(colorBlindQuestions[activeQuestion].options)"
+          :key="(answer as TestAnswers).label"
+          :label="(answer as TestAnswers).label.toString()"
           size="test"
-          @click.native="chooseIshiharaAnswer(answer.value)"
+          @click.native="chooseIshiharaAnswer((answer as TestAnswers).value)"
         />
       </template>
       <template v-else>
         <MainButton
-          v-for="answer in sightEyeTestQuestions[activeQuestion].options"
-          :key="answer.label"
-          :label="answer.label"
+          v-for="answer in shuffle(
+            sightEyeTestQuestions[activeQuestion].options
+          )"
+          :key="(answer as TestAnswers).label"
+          :label="(answer as TestAnswers).label"
           size="test"
-          @click.native="chooseSnellenAnswer(answer.value)"
+          @click.native="chooseSnellenAnswer((answer as TestAnswers).value)"
         />
       </template>
     </div>
