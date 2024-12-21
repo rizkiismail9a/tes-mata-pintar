@@ -32,7 +32,7 @@ const loginNow = () => {
         <div class="flex flex-col gap-3 items-center">
           <span class="font-bold">Ayo, masuk</span>
           <span class="text-center"
-            >supaya hasil tes kamu bisa tersimpan di history</span
+            >supaya hasil tes kamu bisa kamu lihat lagi nanti</span
           >
         </div>
         <MainButton label="Masuk" size="small" @click.native="loginNow" />
