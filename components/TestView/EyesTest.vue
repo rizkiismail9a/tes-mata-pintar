@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { TestServices } from "~/services/test.services";
+import type { BlindTest, SightTest } from "~/types/eyeTest.type";
+import LoadingState from "../common/LoadingState.vue";
 import MainButton from "../common/MainButton.vue";
 import CoverEyesInfo from "./CoverEyesInfo.vue";
 import ScreenCalibrator from "./ScreenCalibrator.vue";
 import TestIntsruction from "./TestIntsruction.vue";
 import TestResult from "./TestResult.vue";
+
+type TestAnswers = { label: string | number; value: string };
 
 const eyeTestStore = useEyeTestStore();
 const { $cookies } = useNuxtApp();
@@ -18,18 +23,48 @@ const showEyesCoverInstruction = ref<boolean>(false);
 const showResult = ref<boolean>(false);
 const showCalibrator = ref<boolean>(false);
 const sightTestRound = ref<number>(1);
+const colorBlindQuestions = ref<BlindTest[]>([]);
+const sightEyeTestQuestions = ref<SightTest[]>([]);
+const isLoading = ref<boolean>();
 const subMessage = ref<string>("buta warna");
 const buttonText = ref<"Kembali ke Beranda" | "Lanjut Mata Kanan">(
   "Kembali ke Beranda"
 );
 
-const colorBlindQuestions = computed(() => {
-  return eyeTestStore.colorBlindTesQuestions;
-});
+// For shuffle the anwser and question
+const shuffle = (array: TestAnswers[] | BlindTest[] | SightTest[]) => {
+  return array.sort(() => Math.random() - 0.5);
+};
 
-const sightEyeTestQuestions = computed(() => {
-  return eyeTestStore.sightEyeTest;
-});
+// Get the questions from store or from API
+const getColorBlindQuestions = () => {
+  const questions = eyeTestStore.colorBlindTesQuestions;
+  return shuffle(questions);
+};
+
+const getSightTestQuestions = async () => {
+  try {
+    isLoading.value = true;
+    const today = new Date().getDate();
+    const isEven = today % 2 === 0;
+    const { data } = await TestServices.fetchSightTestData(isEven ? 2 : 1);
+
+    const questions = data;
+
+    return shuffle(questions);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+// Di nuxt 3 dengan composition API, gak ada fetch dan created lagi
+if (props.testType === "color-blind") {
+  colorBlindQuestions.value = getColorBlindQuestions() as BlindTest[];
+} else {
+  sightEyeTestQuestions.value = (await getSightTestQuestions()) as SightTest[];
+}
 
 const testResult = computed(() => {
   return answers.value.every((item) => {
@@ -57,7 +92,7 @@ const chooseIshiharaAnswer = (value: string) => {
   }
 };
 
-const chooseSnellenAnswer = (value: string) => {
+const chooseSnellenAnswer = async (value: string) => {
   answers.value?.push(value);
 
   if (activeQuestion.value !== sightEyeTestQuestions.value.length - 1) {
@@ -71,6 +106,10 @@ const chooseSnellenAnswer = (value: string) => {
       if (token) {
         localStorage.setItem("leftEyeResult", JSON.stringify(testResult.value));
       }
+
+      // Shuffle the questiosn again
+      sightEyeTestQuestions.value =
+        (await getSightTestQuestions()) as SightTest[];
     } else {
       buttonText.value = "Kembali ke Beranda";
       subMessage.value = "gangguan mata kanan kamu";
@@ -102,6 +141,8 @@ const onReadyRightEye = () => {
 </script>
 
 <template>
+  <LoadingState v-if="isLoading" />
+
   <TestIntsruction
     v-if="showIntsruction"
     @understood="understoodIntstruction"
@@ -149,20 +190,22 @@ const onReadyRightEye = () => {
       <p class="text-center text-xl">Apa yang kamu lihat?</p>
       <template v-if="testType === 'color-blind'">
         <MainButton
-          v-for="answer in colorBlindQuestions[activeQuestion].options"
-          :key="answer.label"
-          :label="answer.label.toString()"
+          v-for="answer in shuffle(colorBlindQuestions[activeQuestion].options)"
+          :key="(answer as TestAnswers).label"
+          :label="(answer as TestAnswers).label.toString()"
           size="test"
-          @click.native="chooseIshiharaAnswer(answer.value)"
+          @click.native="chooseIshiharaAnswer((answer as TestAnswers).value)"
         />
       </template>
       <template v-else>
         <MainButton
-          v-for="answer in sightEyeTestQuestions[activeQuestion].options"
-          :key="answer.label"
-          :label="answer.label"
+          v-for="answer in shuffle(
+            sightEyeTestQuestions[activeQuestion].options
+          )"
+          :key="(answer as TestAnswers).label"
+          :label="(answer as TestAnswers).label"
           size="test"
-          @click.native="chooseSnellenAnswer(answer.value)"
+          @click.native="chooseSnellenAnswer((answer as TestAnswers).value)"
         />
       </template>
     </div>

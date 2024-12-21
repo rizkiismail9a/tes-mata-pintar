@@ -85,7 +85,15 @@ const onButtonClick = async () => {
     const token = $cookies.getCookies("accessToken");
 
     if (props.buttonText === "Kembali ke Beranda") {
-      document.exitFullscreen();
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+        // @ts-ignore
+      } else if (document.webkitExitFullscreen) {
+        // Safari specific
+        // @ts-ignore
+        document.webkitExitFullscreen();
+      }
+
       await submitTestResult();
 
       if (token) {

@@ -1,8 +1,7 @@
-import type { BlindTest, SightTest } from "~/types/eyeTest.type";
+import type { BlindTest } from "~/types/eyeTest.type";
 
 interface eyeTestState {
   colorBlindTesQuestions: BlindTest[];
-  sightEyeTest: SightTest[];
 }
 
 export const useEyeTestStore = defineStore("eyeTestStore", {
@@ -357,7 +356,7 @@ export const useEyeTestStore = defineStore("eyeTestStore", {
               value: "total",
             },
             {
-              label: "Sebuah garis",
+              label: "Sebuah garis merah ungu",
               value: "red-green deficiency",
             },
             {
@@ -384,184 +383,6 @@ export const useEyeTestStore = defineStore("eyeTestStore", {
             {
               label: "Garis ungu dan jingga",
               value: "normal",
-            },
-          ],
-        },
-      ],
-      sightEyeTest: [
-        {
-          letters: "E", // 20/200
-          size: 7.29,
-          options: [
-            {
-              label: "E",
-              value: "normal",
-            },
-            {
-              label: "F",
-              value: "rabun",
-            },
-            {
-              label: "G",
-              value: "rabun",
-            },
-            {
-              label: "H",
-              value: "rabun",
-            },
-          ],
-        },
-        {
-          letters: "P", // 20/100
-          size: 5.21,
-          options: [
-            {
-              label: "P",
-              value: "normal",
-            },
-            {
-              label: "Q",
-              value: "rabun",
-            },
-            {
-              label: "R",
-              value: "rabun",
-            },
-            {
-              label: "S",
-              value: "rabun",
-            },
-          ],
-        },
-        {
-          letters: "A", // 20/70
-          size: 3.64,
-          options: [
-            {
-              label: "B",
-              value: "rabun",
-            },
-            {
-              label: "A",
-              value: "normal",
-            },
-            {
-              label: "C",
-              value: "rabun",
-            },
-            {
-              label: "D",
-              value: "rabun",
-            },
-          ],
-        },
-        {
-          letters: "Z", // 20/50
-          size: 2.92,
-          options: [
-            {
-              label: "B",
-              value: "rabun",
-            },
-            {
-              label: "Z",
-              value: "normal",
-            },
-            {
-              label: "Y",
-              value: "rabun",
-            },
-            {
-              label: "P",
-              value: "rabun",
-            },
-          ],
-        },
-        {
-          letters: "C", // 20/40
-          size: 2.08,
-          options: [
-            {
-              label: "P",
-              value: "rabun",
-            },
-            {
-              label: "E",
-              value: "rabun",
-            },
-            {
-              label: "C",
-              value: "normal",
-            },
-            {
-              label: "Z",
-              value: "rabun",
-            },
-          ],
-        },
-        {
-          letters: "Z", // 20/30
-          size: 1.67,
-          options: [
-            {
-              label: "O",
-              value: "rabun",
-            },
-            {
-              label: "D",
-              value: "rabun",
-            },
-            {
-              label: "F",
-              value: "rabun",
-            },
-            {
-              label: "Z",
-              value: "normal",
-            },
-          ],
-        },
-        {
-          letters: "L", // 20/25
-          size: 1.46,
-          options: [
-            {
-              label: "K",
-              value: "rabun",
-            },
-            {
-              label: "M",
-              value: "rabun",
-            },
-            {
-              label: "A",
-              value: "rabun",
-            },
-            {
-              label: "L",
-              value: "normal",
-            },
-          ],
-        },
-        {
-          letters: "E", // 20/20
-          size: 1.25,
-          options: [
-            {
-              label: "W",
-              value: "rabun",
-            },
-            {
-              label: "Q",
-              value: "rabun",
-            },
-            {
-              label: "E",
-              value: "normal",
-            },
-            {
-              label: "Y",
-              value: "rabun",
             },
           ],
         },

@@ -79,20 +79,24 @@ const getSightTestSize = async () => {
         <div
           class="flex flex-col gap-1 items-center bg-tmp-green p-3 rounded-md flex-1"
         >
-          <div class="font-bold text-white">{{ totalUsers || "-" }}</div>
+          <div class="font-bold text-white">
+            {{ totalUsers || "loading..." }}
+          </div>
           <span class="text-center">pengguna aktif</span>
         </div>
         <div
           class="flex flex-col gap-1 items-center bg-tmp-green p-3 rounded-md flex-1"
         >
-          <div class="font-bold text-white">{{ totalSightTest || "-" }}</div>
+          <div class="font-bold text-white">
+            {{ totalSightTest || "loading..." }}
+          </div>
           <span class="text-center">tes rabun</span>
         </div>
         <div
           class="flex flex-col gap-1 items-center bg-tmp-green p-3 rounded-md flex-1"
         >
           <div class="font-bold text-white">
-            {{ totalColorBlindTest || "-" }}
+            {{ totalColorBlindTest || "loading..." }}
           </div>
           <span class="text-center">tes buta warna</span>
         </div>
