@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { TestServices } from "~/services/test.services";
 import type { BlindTest, SightTest } from "~/types/eyeTest.type";
+import LoadingState from "../common/LoadingState.vue";
 import MainButton from "../common/MainButton.vue";
 import CoverEyesInfo from "./CoverEyesInfo.vue";
 import ScreenCalibrator from "./ScreenCalibrator.vue";
@@ -21,18 +23,13 @@ const showEyesCoverInstruction = ref<boolean>(false);
 const showResult = ref<boolean>(false);
 const showCalibrator = ref<boolean>(false);
 const sightTestRound = ref<number>(1);
+const colorBlindQuestions = ref<BlindTest[]>([]);
+const sightEyeTestQuestions = ref<SightTest[]>([]);
+const isLoading = ref<boolean>();
 const subMessage = ref<string>("buta warna");
 const buttonText = ref<"Kembali ke Beranda" | "Lanjut Mata Kanan">(
   "Kembali ke Beranda"
 );
-
-// const colorBlindQuestions = computed(() => {
-//   return eyeTestStore.colorBlindTesQuestions;
-// });
-
-// const sightEyeTestQuestions = computed(() => {
-//   return eyeTestStore.sightEyeTest;
-// });
 
 // For shuffle the anwser and question
 const shuffle = (array: TestAnswers[] | BlindTest[] | SightTest[]) => {
@@ -45,15 +42,29 @@ const getColorBlindQuestions = () => {
   return shuffle(questions);
 };
 
-const getSightTestQuestions = () => {
-  const questions = eyeTestStore.sightEyeTest;
-  return shuffle(questions);
+const getSightTestQuestions = async () => {
+  try {
+    isLoading.value = true;
+    const today = new Date().getDate();
+    const isEven = today % 2 === 0;
+    const { data } = await TestServices.fetchSightTestData(isEven ? 2 : 1);
+
+    const questions = data;
+
+    return shuffle(questions);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
 };
 
-// use let, we wanna shuffle it again
-let sightEyeTestQuestions = getSightTestQuestions() as SightTest[];
-
-const colorBlindQuestions = getColorBlindQuestions() as BlindTest[];
+// Di nuxt 3 dengan composition API, gak ada fetch dan created lagi
+if (props.testType === "color-blind") {
+  colorBlindQuestions.value = getColorBlindQuestions() as BlindTest[];
+} else {
+  sightEyeTestQuestions.value = (await getSightTestQuestions()) as SightTest[];
+}
 
 const testResult = computed(() => {
   return answers.value.every((item) => {
@@ -73,7 +84,7 @@ const understoodIntstruction = () => {
 const chooseIshiharaAnswer = (value: string) => {
   answers.value?.push(value);
 
-  if (activeQuestion.value !== colorBlindQuestions.length - 1) {
+  if (activeQuestion.value !== colorBlindQuestions.value.length - 1) {
     activeQuestion.value++;
   } else {
     showResult.value = true;
@@ -81,10 +92,10 @@ const chooseIshiharaAnswer = (value: string) => {
   }
 };
 
-const chooseSnellenAnswer = (value: string) => {
+const chooseSnellenAnswer = async (value: string) => {
   answers.value?.push(value);
 
-  if (activeQuestion.value !== sightEyeTestQuestions.length - 1) {
+  if (activeQuestion.value !== sightEyeTestQuestions.value.length - 1) {
     activeQuestion.value++;
   } else {
     if (sightTestRound.value === 1) {
@@ -97,7 +108,8 @@ const chooseSnellenAnswer = (value: string) => {
       }
 
       // Shuffle the questiosn again
-      sightEyeTestQuestions = getSightTestQuestions() as SightTest[];
+      sightEyeTestQuestions.value =
+        (await getSightTestQuestions()) as SightTest[];
     } else {
       buttonText.value = "Kembali ke Beranda";
       subMessage.value = "gangguan mata kanan kamu";
@@ -129,6 +141,8 @@ const onReadyRightEye = () => {
 </script>
 
 <template>
+  <LoadingState v-if="isLoading" />
+
   <TestIntsruction
     v-if="showIntsruction"
     @understood="understoodIntstruction"

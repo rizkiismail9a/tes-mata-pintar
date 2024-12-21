@@ -14,6 +14,7 @@
     "@types/vue-cropperjs": "^4.1.6",
     "@vee-validate/rules": "^4.14.7",
     "@vite-pwa/nuxt": "^0.10.6",
+    "axios": "^1.7.9",
     "firebase": "^11.0.2",
     "nuxt": "^3.14.159",
     "pinia": "^2.2.6",
